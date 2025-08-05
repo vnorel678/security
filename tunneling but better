@@ -1,0 +1,73 @@
+## Control sockets ## 
+ssh -MS /tmp/jump student@<JUMP IP> 
+password: <VARO password> 
+
+## to find usable IPs ##
+for i in {97..126}; do (ping -c 1 192.168.28.$i | grep "bytes from" &); done
+
+## Dynamic Port Forwarding ##
+ssh -S /tmp/jump jump -O forward -D 9050 
+
+## Scan Found Targets ##
+proxychains nmap <IPs,4th,4th>
+
+## Banner grab to ensure ports are actually giving correct services ##
+proxychains nc <ip found> <port found>
+
+## Port Forward to found ports ##
+ssh - S /tmp/jump jump -O forward -L <RHP1>:<found IP>:<open port>  -L <RHP2>:<found IP>:<open port> -L <RHP3>:<found IP2>:<open port> -L <RHP4>:<found IP2>:<open port> ## {as many as is needed}
+
+## close 1 or 2 (or all) Port Forwards ##
+ssh - S /tmp/jump jump -O cancel -L <RHP1>:<found IP>:<open port>  -L <RHP2>:<found IP>:<open port> -L <RHP3>:<found IP2>:<open port> -L <RHP4>:<found IP2>:<open port> ## {as many as is needed}
+
+## Navigate to web server ##
+## firefox 
+127.0.0.1:1111
+
+## Authenicate to <found IP> ##
+ssh -MS /tmp/<t1> <username>@127.0.0.1 -p <RHP1-12>
+
+## Ping sweep new network ID ##
+ping sweep <Net ID>
+
+## Set up dynamic port forwarding ##
+ssh -S /tmp/jump jump -O cancel -D 9050 ##Must cancel OG -D first##
+ssh -S /tmp/<t1> <t1> -O forward -d 9050
+
+## scan new IP ##
+proxychains nmap <new IPS>
+
+##### Notionally found 80 -HTTP, 22 - SSH #####
+
+## Port forward to new webserver ##
+ssh -S /tmp/<t1> <t1> -O forward -L <RHP2>:<found IP>:<open port> -L <RHP3>:<found IP2>:<open port> -L <RHP4>:<found IP2>:<open port> ## {as many as is needed}
+
+## Firefox ##
+127.0.0.1:3111
+
+creds found : student :: password
+ssh -MS /tmp/t2 student@127.0.0.1 -p 3111
+Password: password
+
+### nmap scripts ###
+proxychains nmap --script=http-enum <IP>
+to find scripts you may use -
+ls -l /usr/share/nmap/scripts | grep <http>
+
+
+### lxml script ###
+#!/usr/bin/env python
+
+import lxml.html
+import requests
+
+page = requests.get('http://quotes.toscrape.com')
+tree = lxml.html.fromstring(page.content)
+
+authors = tree.xpath('//small[@class="author"]/text()')
+
+print ('Authors: ", authors)
+
+
+
+

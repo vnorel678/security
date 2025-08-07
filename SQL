@@ -12,7 +12,7 @@ SELECT and UNION (most used)
 ssh into server (wiht root perms)
 &> mysql
 ]> show databases ; (3 databases: informations_ scheme(most important), performance_scheme, mysql)
-]> select table_schema,table_name,column_name from information_schema.columns ;
+];
 ]> <NAME OF COLUMN>,<NAME OF COLUMN>,<NAME OF COLUMN>, from <NAME OF DATABASE>,<NAME OF TABLE>
 ]> use information_schema ; 
 ]> show tables ;
@@ -33,3 +33,4 @@ Step 4 - Craft Queries
 step1: identify vulnerable selection
 selection= 2,3,4
 step2: identify number of  
+.com'\', 1)#

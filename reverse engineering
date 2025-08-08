@@ -1,0 +1,28 @@
+## Static analysis
+## We looked at c code
+strings.exe -a -nobanner .\demo1_new.exe | findstr /i succ 
+strings.exe -a -n 5 -nobanner .\demo1_new.exe | select -first 10 
+strings.exe -a -nobanner .\demo1_new.exe | select -first 10 
+strings.exe -a -n 7 -nobanner .\demo1_new.exe 
+
+## Behavioral analysis
+ Run program as its maker intented
+
+## Dynamic Analysis
+ Run program how we want to (fuck it up)
+
+## Disassembly  
+open gidrah > file > new project > non-shared > complete 
+file > import file > navigate/select .exe > keep default options
+search > ...for strings > success 
+
+## Patching
+work from end, going backards
+look for success or other messages
+click on condition of statement you need for success to run 
+
+look at the assembly > right click > path instructions
+set cmp to the same "EAX,EAX" 
+
+file export program > change format to a PE > change anme and location of PE
+

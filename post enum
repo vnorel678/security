@@ -1,0 +1,11 @@
+## gets you to intranet 
+ssh -MS /tmp/jump student@10.50.12.102
+ssh -S /tmp/jump jump -O forward -L 5555:192.168.28.100:2222 -L 6666:192.168.28.100:80 
+ssh -MS /tmp/tim www-data@127.0.0.1 -p 5555
+ssh -S /tmp/tim tim -O forward -D 9050
+proxychains ssh -i /home/student/backup/.ssh/id_rsa comrade@192.168.150.253 -p 3201
+
+
+
+
+

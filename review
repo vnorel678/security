@@ -1,0 +1,113 @@
+## Reconnaissance ##
+nmap to id services or open ports
+Bnner grab ports, netcat ports, nmap scripts, and nav to http locations (robots.txt)
+interact wiht all web pages as designed
+
+## Web Exploitation ##
+Understand the context of the webpage EX: file to read = cat <file> or system to ping = ping <IP>
+Command injection:  -> ; whoami 
+    Identify the user  executing the commands on the web page input field
+    ; cat /etc/passwd ##gain situational awarenesss about user and other
+    ;cat /etc/hosts ##gain situational awareness about other hosts
+    Hyjack a users acount by inputting our own ssh key into /.ssh/authorized_keys file
+
+## SQL ##
+## Authentication bypass (login page) ##
+    ' or 1 = '1 ## both fields. post method
+Get Method
+Send exploit again wiht Dev console open, hightlight to network tab, click on POST, header, Raw, copys/paste request payload into url
+# Injection
+POST 
+
+1. indentify vulnerable field 
+(selection/fields) ' OR 1 = '1
+
+2. identify number of columns 
+(union select 1,2,3 #)
+## take note of order they display
+
+3. Modify Golden Statement 
+union select table_schema,table_name,column_names from information_schema.columns # 
+
+4. Craft queries
+
+### GET
+same as port, just omit single quotes and pound sign/hashtag
+Queries will be done from URL Bar 
+
+## POST Exploitation
+Host enumeration 
+  sudo -l ## identify permissions for the user we logged in as 
+  enumerate the users home directory and /tmp /var/tmp directories
+  enumerate for crontabs if on linux
+  enumerate for proccesses and services running, scheduled tasks
+  enumerate hosts, passwd 
+
+### Linus Exploit Development
+## Static analysis 
+   strings, file
+## Dynamic Analysis
+Identify if the script takes information as user input or as a parameter: 
+        user input: ./<file> <<<$(echo "<shit>")
+        parameter: ./<file> 4(echo "<shit>")
+interact wiht the program, fun it and figure out the functionality of the program
+Utilized GDB to get critical information for exploit:
+    find how many charaters are need for the program to break (wiremask)
+    on target system, follow steps to unset env and then run the program 
+    crash it to view info proc map (heap and stack locations)
+    run find command to get list of JMP ESP values
+    convert to little endian and add to scripts
+    add nop sled in script
+    generate and paste payload (msfvenom)
+#update print statement wiht all variables created#
+
+## OS Privilege Escalation ##
+### Windows
+Enumerating scheduled tasks, services, registry ## these run at system priv
+Ensure user has write permissions to that directory
+Try to change the files name 
+Place payload with the appropriate name in the correct directory
+
+### Linux
+Enumerate SUID/SGID utilizing the find /perm command 
+If SUID/SGID or SUDO found, go to GTFO BINS and use the corolating section
+#### Do not run the installation command ####
+#### Do not run the command from PWD (./binary XXXX)
+
+## Binary Analysis/Reverse Engineering ##
+# Static analysis
+strings, file
+ELF - Executable and Linkable File (Linux)
+PE - Portable Executable (Windows)
+# Dynamic Analysis
+ run he program and interact wiht it as intended
+# Behavioral Analysis
+ Use Ghidra
+   search for strings 
+   start wiht end of program and reverse engineer the logic to find out wiht is requiered for a success message
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ bitshifting
+ https://devtools.calckit.io/programmer-calculator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
